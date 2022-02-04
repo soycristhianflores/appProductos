@@ -60,7 +60,7 @@ class _ProductDetail extends StatelessWidget {
               ],
             ),
             _ProductForm(),
-            SizedBox(height: 0,)
+            SizedBox(height: 50,)
           ],
         ),),
         floatingActionButton: FloatingActionButton(
@@ -141,8 +141,9 @@ class _ProductForm extends StatelessWidget {
               SwitchListTile(
                 title: Text("Disponible"),
                 activeColor: Colors.indigo,
-                value: product.available, onChanged: (value){
-
+                value: product.available, 
+                onChanged: (value){
+                  ProductForm.updateAvailable(value);  
                 }),
               SizedBox(height: 30,),
 

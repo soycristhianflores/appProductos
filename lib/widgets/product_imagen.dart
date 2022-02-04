@@ -15,16 +15,20 @@ class ProductDetailImg extends StatelessWidget {
         decoration: _buildBoxDecoration(),
         width: double.infinity,
         height: 400,
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(45),topRight: Radius.circular(45)),
-          child: this.url == null
-            ? Image(
-            image:AssetImage('assets/no-image.png'),
-            fit: BoxFit.cover,
-            )
-            : FadeInImage(
-            image: NetworkImage(this.url!),
-            placeholder: AssetImage('assets/jar-loading.gif'), 
+        child: Opacity(
+          opacity: 0.9,
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(45),topRight: Radius.circular(45)),
+            child: this.url == null
+              ? Image(
+              image:AssetImage('assets/no-image.png'),
+              fit: BoxFit.cover,
+              )
+              : FadeInImage(
+              image: NetworkImage(this.url!),
+              fit: BoxFit.cover,
+              placeholder: AssetImage('assets/jar-loading.gif'), 
+            ),
           ),
         ),
       ),
@@ -32,13 +36,7 @@ class ProductDetailImg extends StatelessWidget {
   }
 
   BoxDecoration _buildBoxDecoration() => BoxDecoration(
+    color: Colors.black,
     borderRadius: BorderRadius.only(topLeft: Radius.circular(45),topRight: Radius.circular(45)),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.black12,
-        blurRadius: 10,
-        offset:Offset(0,5) 
-        )
-    ] 
   );
 }
