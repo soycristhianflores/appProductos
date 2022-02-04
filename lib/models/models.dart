@@ -1,0 +1,1 @@
+export 'package:menu/models/product.dart';
