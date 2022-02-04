@@ -34,6 +34,7 @@ class _ProductDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productForm = Provider.of<ProductFormProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -65,8 +66,9 @@ class _ProductDetail extends StatelessWidget {
         ),),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.save_outlined),
-          onPressed: (){
-
+          onPressed: () async{
+            if(!productForm.isValidForm()) return;
+            await productsService.saveOrCreateProduct(productForm.product);
           },
           ),
     );
@@ -92,6 +94,8 @@ class _ProductForm extends StatelessWidget {
         width: double.infinity,
         decoration: _boxDecoration(),
         child:Form(
+          key: ProductForm.formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
               SizedBox(height: 10,),
@@ -109,14 +113,16 @@ class _ProductForm extends StatelessWidget {
               ),
               SizedBox(height: 30,),
               TextFormField(
-                keyboardType: TextInputType.number,
-                initialValue: "${product.price}",
+                initialValue: '${product.price}',
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))],
                 onChanged: (value) {
-                  double.tryParse(value) == null?
-                  product.price = 0:
-                  double.tryParse(value);
+                  if(double.tryParse(value) == null){
+                    product.price = 0;
+                  }else{
+                    product.price = int.parse(value);
+                  }
                 }, 
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText:"Precio:",
                   hintText: "\$150" 
@@ -129,7 +135,7 @@ class _ProductForm extends StatelessWidget {
                 onChanged: (value) {
                   double.tryParse(value) == null?
                   product.amount = 0:
-                  double.tryParse(value);
+                  product.amount = int.parse(value);
                 }, 
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
